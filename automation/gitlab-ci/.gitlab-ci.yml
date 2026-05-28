@@ -1,0 +1,26 @@
+stages:
+  - validate
+  - cost-analysis
+  - policy-check
+
+terraform_validate:
+  stage: validate
+  image: hashicorp/terraform:latest
+
+  script:
+    - terraform init
+    - terraform validate
+
+infracost_analysis:
+  stage: cost-analysis
+  image: infracost/infracost:latest
+
+  script:
+    - infracost breakdown --path .
+
+policy_validation:
+  stage: policy-check
+  image: openpolicyagent/opa:latest
+
+  script:
+    - opa eval --data automation/opa --input terraform-plan.json "data.finops.deny"
