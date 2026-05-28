@@ -1,7 +1,5 @@
 ## finops-operating-model
 
-Explain:
-
 * current challenges
 * proposed FinOps-as-Code model
 * lifecycle
